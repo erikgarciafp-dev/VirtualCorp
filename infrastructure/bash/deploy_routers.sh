@@ -13,29 +13,29 @@ check_prerequisites
 # Crea el template pel router
 # create_router_template
 
-# Desplegament de mikrotiK0
+# Desplegament de mikrotik0
 create_router "mikrotik0" 2200 \
-  --intnets "r0-r1" "dmz" \
-  --ips "10.7.254.1/30" "10.7.1.1/25" \
+  --intnets "r0-r1" "pb-general" \
+  --ips "10.7.0.225/30" "10.7.0.1/25" \
   --nat
 
-# Desplegament de mikrotiK1
+# Desplegament de mikrotik1
 create_router "mikrotik1" 2201 \
-  --intnets "r0-r1" "r1-r2" "plo" \
-  --ips "10.7.254.2/30" "10.7.254.5/30" "10.7.2.1/25" \
-  --gateway "10.7.254.1"
+  --intnets "r0-r1" "r1-r2" "pl1" \
+  --ips "10.7.0.226/30" "10.7.0.229/30" "10.7.1.1/24" \
+  --gateway "10.7.0.225"
 
-# Desplegament de mikrotiK2
+# Desplegament de mikrotik2
 create_router "mikrotik2" 2202 \
-  --intnets "r1-r2" "r2-r3" "pl1" "pl2" \
-  --ips "10.7.254.6/30" "10.7.254.9/30" "10.7.3.1/24" "10.7.4.1/24" \
-  --gateway "10.7.254.5"
+  --intnets "r1-r2" "r2-r3" "pl2" \
+  --ips "10.7.0.230/30" "10.7.0.233/30" "10.7.2.1/24" \
+  --gateway "10.7.0.229"
 
-# Desplegament de mikrotiK3
+# Desplegament de mikrotik3
 create_router "mikrotik3" 2203 \
-  --intnets "r2-r3" "pl3" "pl3-direccio" \
-  --ips "10.7.254.10/30" "10.7.5.1/25" "10.7.5.129/25" \
-  --gateway "10.7.254.9"
+  --intnets "r2-r3" "pl3" \
+  --ips "10.7.0.234/30" "10.7.3.1/24" \
+  --gateway "10.7.0.233"
 
 log_info "=========================================="
 log_info "[+] Routers desplegats correctament."
