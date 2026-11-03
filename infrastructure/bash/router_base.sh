@@ -624,6 +624,7 @@ EOF
 
     cat >> "$rsc_file" <<EOF
 /system identity set name="$name"
+/ip dns set servers=8.8.8.8
 /routing rip instance add name=rip1 redistribute=connected,rip
 EOF
 
