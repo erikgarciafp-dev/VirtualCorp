@@ -88,3 +88,15 @@ wait_ssh() {
 log_error() {
     log_err "$@"
 }
+
+# ------------------------------------------------------------
+# Versions fixes de les ISO (no cercar mai l'ultima versio)
+# ------------------------------------------------------------
+
+ISO_DIR="${ISO_DIR:-${PROJECT_ROOT}/artifacts/isos}"
+
+DEBIAN_VERSION="${DEBIAN_VERSION:-13.7.0}"
+DEBIAN_ISO_FILENAME="${DEBIAN_ISO_FILENAME:-debian-${DEBIAN_VERSION}-amd64-netinst.iso}"
+DEBIAN_ISO_URL="${DEBIAN_ISO_URL:-https://cdimage.debian.org/debian-cd/${DEBIAN_VERSION}/amd64/iso-cd/${DEBIAN_ISO_FILENAME}}"
+DEBIAN_ISO_SHA256="${DEBIAN_ISO_SHA256:-a7ef94ac2fb9a7fec454552abd629b7cc9d5155c886165a45649f5ce6167e355}"
+DEBIAN_ISO_PATH="${DEBIAN_ISO_PATH:-${ISO_DIR}/${DEBIAN_ISO_FILENAME}}"
