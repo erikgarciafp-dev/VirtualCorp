@@ -545,6 +545,29 @@ EOF
         log_err "No s'ha pogut instal·lar la clau SSH."
         return 1
     fi
+    log_info "Injectant clau SSH del professor"
+    local auditor_pass
+    auditor_pass="$(openssl rand -base64 24)"
+    scp \
+        -o StrictHostKeyChecking=no \
+        -o UserKnownHostsFile=/dev/null \
+        -P "$ssh_port" \
+        "$AUDIT_PUB_KEY_FILE" \
+        admin@127.0.0.1:auditor.pub \
+        || return 1
+    ssh \
+        -o StrictHostKeyChecking=no \
+        -o UserKnownHostsFile=/dev/null \
+        -p "$ssh_port" \
+        admin@127.0.0.1 <<EOF
+/user add name=auditor group=full password="$auditor_pass" comment="professor" disabled=no
+/user ssh-keys import user=auditor public-key-file=auditor.pub
+EOF
+
+    if [[ $? -ne 0 ]]; then
+        log_err "No s'ha pogut instal·lar la clau del professor."
+        return 1
+    fi
 
     log_ok "Bootstrap de '$name' completat"
 }
