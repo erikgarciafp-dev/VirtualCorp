@@ -84,3 +84,7 @@ wait_ssh() {
     log_error "Timeout: SSH no disponible a ${ip}:${port} després de ${max_wait}s."
     return 1
 }
+
+log_error() {
+    log_err "$@"
+}

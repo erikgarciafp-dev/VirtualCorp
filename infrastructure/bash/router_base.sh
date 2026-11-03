@@ -2,6 +2,7 @@
 
 # Paràmetres globals de configuració
 SSH_USER="${SSH_USER:-sysadmin}"
+SYSADMIN_PASSWORD="${SYSADMIN_PASSWORD:?Defineix SYSADMIN_PASSWORD al fitxer .env}"
 
 # Carregar funcions i variables entorn
 source "$SCRIPT_DIR/common.sh"
@@ -145,7 +146,7 @@ create_router_template() {
 /ip service enable ssh
 
 # create sysadmin user
-/user add name=sysadmin group=full password="Asdqwe!23" comment="sysadmin user" disabled=no
+/user add name=sysadmin group=full password="$SYSADMIN_PASSWORD" comment="sysadmin user" disabled=no
 
 EOF
 
@@ -503,10 +504,10 @@ bootstrap_routeros() {
         -o StrictHostKeyChecking=no \
         -o UserKnownHostsFile=/dev/null \
         -p "$ssh_port" \
-        admin@127.0.0.1 <<'EOF'
+        admin@127.0.0.1 <<EOF
 
 /ip service enable ssh
-/user add name=sysadmin group=full password="Asdqwe!23" comment="sysadmin user" disabled=no
+/user add name=sysadmin group=full password="$SYSADMIN_PASSWORD" comment="sysadmin user" disabled=no
 
 EOF
 
@@ -535,7 +536,7 @@ EOF
         -o StrictHostKeyChecking=no \
         -o UserKnownHostsFile=/dev/null \
         -p "$ssh_port" \
-        admin@127.0.0.1 <<'EOF'
+        admin@127.0.0.1 <<EOF
 
 /user ssh-keys import user=sysadmin public-key-file=sysadmin.pub
 

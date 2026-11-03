@@ -37,15 +37,15 @@ Confirm that all four VMs appear in VirtualBox, under the `/VirtualCorp/Routers`
 
 | Router | Transit address |
 | --- | --- |
-| `mikrotik0` | `10.1.0.225` |
-| `mikrotik1` | `10.1.0.226` |
-| `mikrotik2` | `10.1.0.230` |
-| `mikrotik3` | `10.1.0.234` |
+| `mikrotik0` | `10.7.0.225` |
+| `mikrotik1` | `10.7.0.226` |
+| `mikrotik2` | `10.7.0.230` |
+| `mikrotik3` | `10.7.0.234` |
 
 From each router, ping the other three addresses. For example:
 
 ```text
-ping 10.1.0.226 count=4
+ping 10.7.0.226 count=4
 ```
 
 Then check internet connectivity from each router:
