@@ -14,7 +14,7 @@ export VBOX_ROOT_GROUP VM_ROUTERS_GROUP VM_TEMPLATES_GROUP VBOXMANAGE_BIN
 BASH_DIR := $(PROJECT_ROOT)/infrastructure/bash
 BOOTSTRAP_DIR := $(PROJECT_ROOT)/automation/scripts/bootstrap
 
-.PHONY: create_templates delete-templates help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
+.PHONY: deploy_equipment delete-equipment verify-equipment create_templates delete-templates help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
 
 help:
 	@printf '%s\n' \
@@ -49,3 +49,12 @@ create_templates:
 
 delete-templates:
 	"$(BASH_DIR)/create_templates.sh" --delete
+
+deploy_equipment:
+	"$(BASH_DIR)/deploy_equipment.sh"
+
+delete-equipment:
+	"$(BASH_DIR)/deploy_equipment.sh" --delete
+
+verify-equipment:
+	"$(BASH_DIR)/deploy_equipment.sh" --verify

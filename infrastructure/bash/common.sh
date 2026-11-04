@@ -128,3 +128,10 @@ TEMPLATE_DESKTOP_MEMORY="${TEMPLATE_DESKTOP_MEMORY:-2048}"
 TEMPLATE_DESKTOP_DISK_MB="${TEMPLATE_DESKTOP_DISK_MB:-16384}"
 TEMPLATE_SERVER_SSH_PORT="${TEMPLATE_SERVER_SSH_PORT:-2230}"
 TEMPLATE_DESKTOP_SSH_PORT="${TEMPLATE_DESKTOP_SSH_PORT:-2231}"
+
+# ------------------------------------------------------------
+# Equips (linked clones)
+# ------------------------------------------------------------
+
+VM_EQUIPMENT_GROUP="${VM_EQUIPMENT_GROUP:-${VBOX_ROOT_GROUP:-/VirtualCorp}/Equipment}"
+EQUIPMENT_FILE="${EQUIPMENT_FILE:-${CONFIGS_DIR}/equipment.conf}"
