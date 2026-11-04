@@ -6,6 +6,7 @@ include .env
 
 export SYSADMIN_PASSWORD PROJECT_ROOT ARTIFACTS_DIR CONFIGS_DIR SSH_PUBLIC_KEY_DIR SSH_PRIVATE_KEY_DIR
 export ISO_DIR DEBIAN_VERSION DEBIAN_ISO_FILENAME DEBIAN_ISO_URL DEBIAN_ISO_SHA256 DEBIAN_ISO_PATH
+export VBOX_UNATTENDED_DIR PRESEED_DIR TEMPLATE_SERVER_NAME TEMPLATE_DESKTOP_NAME TEMPLATE_SNAPSHOT_NAME TEMPLATE_USER TEMPLATE_DOMAIN
 export PROXMOX_VERSION PROXMOX_ISO_FILENAME PROXMOX_ISO_URL PROXMOX_ISO_SHA256 PROXMOX_ISO_PATH
 export ROUTEROS_VERSION ROUTEROS_VDI_FILENAME ROUTEROS_VDI_PATH ROUTEROS_BOX_NAME ROUTEROS_BOX_FILE
 export VBOX_ROOT_GROUP VM_ROUTERS_GROUP VM_TEMPLATES_GROUP VBOXMANAGE_BIN
@@ -13,7 +14,7 @@ export VBOX_ROOT_GROUP VM_ROUTERS_GROUP VM_TEMPLATES_GROUP VBOXMANAGE_BIN
 BASH_DIR := $(PROJECT_ROOT)/infrastructure/bash
 BOOTSTRAP_DIR := $(PROJECT_ROOT)/automation/scripts/bootstrap
 
-.PHONY: help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
+.PHONY: create_templates delete-templates help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
 
 help:
 	@printf '%s\n' \
@@ -42,3 +43,9 @@ ssh-keys:
 
 routeros-box:
 	"$(BOOTSTRAP_DIR)/create_mikrotik_box.sh"
+
+create_templates:
+	"$(BASH_DIR)/create_templates.sh" $(TEMPLATES)
+
+delete-templates:
+	"$(BASH_DIR)/create_templates.sh" --delete
