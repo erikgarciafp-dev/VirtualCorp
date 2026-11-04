@@ -14,7 +14,7 @@ export VBOX_ROOT_GROUP VM_ROUTERS_GROUP VM_TEMPLATES_GROUP VBOXMANAGE_BIN
 BASH_DIR := $(PROJECT_ROOT)/infrastructure/bash
 BOOTSTRAP_DIR := $(PROJECT_ROOT)/automation/scripts/bootstrap
 
-.PHONY: deploy_equipment delete-equipment verify-equipment create_templates delete-templates help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
+.PHONY: deploy_clones delete-clones verify-clones deploy_pve01 delete-pve01 verify-pve01 deploy_equipment delete-equipment verify-equipment create_templates delete-templates help deploy-routers delete-routers reset-routers reset_routers ssh-keys routeros-box
 
 help:
 	@printf '%s\n' \
@@ -50,11 +50,26 @@ create_templates:
 delete-templates:
 	"$(BASH_DIR)/create_templates.sh" --delete
 
-deploy_equipment:
+deploy_clones:
 	"$(BASH_DIR)/deploy_equipment.sh"
 
-delete-equipment:
+delete-clones:
 	"$(BASH_DIR)/deploy_equipment.sh" --delete
 
-verify-equipment:
+verify-clones:
 	"$(BASH_DIR)/deploy_equipment.sh" --verify
+
+deploy_pve01:
+	"$(BASH_DIR)/deploy_pve01.sh"
+
+delete-pve01:
+	"$(BASH_DIR)/deploy_pve01.sh" --delete
+
+verify-pve01:
+	"$(BASH_DIR)/deploy_pve01.sh" --verify
+
+deploy_equipment: deploy_clones deploy_pve01
+
+delete-equipment: delete-pve01 delete-clones
+
+verify-equipment: verify-clones verify-pve01

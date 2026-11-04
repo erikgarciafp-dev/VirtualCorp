@@ -135,3 +135,47 @@ TEMPLATE_DESKTOP_SSH_PORT="${TEMPLATE_DESKTOP_SSH_PORT:-2231}"
 
 VM_EQUIPMENT_GROUP="${VM_EQUIPMENT_GROUP:-${VBOX_ROOT_GROUP:-/VirtualCorp}/Equipment}"
 EQUIPMENT_FILE="${EQUIPMENT_FILE:-${CONFIGS_DIR}/equipment.conf}"
+
+# ------------------------------------------------------------
+# pve01 (Proxmox VE)
+# ------------------------------------------------------------
+
+PVE01_NAME="${PVE01_NAME:-pve01}"
+PVE01_CPUS="${PVE01_CPUS:-4}"
+PVE01_MEMORY="${PVE01_MEMORY:-8192}"
+PVE01_DISK_MB="${PVE01_DISK_MB:-65536}"
+PVE01_NETWORK="${PVE01_NETWORK:-privada}"
+PVE01_MAC="${PVE01_MAC:-080027070014}"
+PVE01_IP="${PVE01_IP:-10.7.0.133}"
+PVE01_ANSWER_TEMPLATE="${PVE01_ANSWER_TEMPLATE:-${CONFIGS_DIR}/pve01/answer.toml.tpl}"
+PVE01_AUTO_ISO_PATH="${PVE01_AUTO_ISO_PATH:-${ISO_DIR}/proxmox-ve_${PROXMOX_VERSION}-auto.iso}"
+
+# Eina de Proxmox per preparar la ISO (versio i clau fixades).
+TOOLS_DIR="${TOOLS_DIR:-${PROJECT_ROOT}/artifacts/tools}"
+PVE_ASSISTANT_VERSION="${PVE_ASSISTANT_VERSION:-9.2.8}"
+PVE_ASSISTANT_BIN="${PVE_ASSISTANT_BIN:-${TOOLS_DIR}/pve-assistant/usr/bin/proxmox-auto-install-assistant}"
+PVE_APT_URL="${PVE_APT_URL:-http://download.proxmox.com/debian/pve}"
+PVE_APT_KEY_URL="${PVE_APT_KEY_URL:-https://enterprise.proxmox.com/debian/proxmox-release-trixie.gpg}"
+PVE_APT_KEY_FPR="${PVE_APT_KEY_FPR:-24B30F06ECC1836A4E5EFECBA7BCD1420BFE778E}"
+
+# ------------------------------------------------------------
+# pve01 (Proxmox VE)
+# ------------------------------------------------------------
+
+PVE01_NAME="${PVE01_NAME:-pve01}"
+PVE01_CPUS="${PVE01_CPUS:-4}"
+PVE01_MEMORY="${PVE01_MEMORY:-8192}"
+PVE01_DISK_MB="${PVE01_DISK_MB:-65536}"
+PVE01_NETWORK="${PVE01_NETWORK:-privada}"
+PVE01_MAC="${PVE01_MAC:-080027070014}"
+PVE01_IP="${PVE01_IP:-10.7.0.133}"
+PVE01_ANSWER_TEMPLATE="${PVE01_ANSWER_TEMPLATE:-${CONFIGS_DIR}/pve01/answer.toml.tpl}"
+PVE01_AUTO_ISO_PATH="${PVE01_AUTO_ISO_PATH:-${ISO_DIR}/proxmox-ve_${PROXMOX_VERSION}-auto.iso}"
+
+# Eina de Proxmox per preparar la ISO (versio i clau fixades).
+TOOLS_DIR="${TOOLS_DIR:-${PROJECT_ROOT}/artifacts/tools}"
+PVE_ASSISTANT_VERSION="${PVE_ASSISTANT_VERSION:-9.2.8}"
+PVE_ASSISTANT_BIN="${PVE_ASSISTANT_BIN:-${TOOLS_DIR}/pve-assistant/usr/bin/proxmox-auto-install-assistant}"
+PVE_APT_URL="${PVE_APT_URL:-http://download.proxmox.com/debian/pve}"
+PVE_APT_KEY_URL="${PVE_APT_KEY_URL:-https://enterprise.proxmox.com/debian/proxmox-release-trixie.gpg}"
+PVE_APT_KEY_FPR="${PVE_APT_KEY_FPR:-24B30F06ECC1836A4E5EFECBA7BCD1420BFE778E}"
