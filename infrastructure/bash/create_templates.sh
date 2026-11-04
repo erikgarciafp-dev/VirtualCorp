@@ -144,7 +144,7 @@ create_template() {
 
     log_info "Arrencant la instal.lacio (pot trigar entre 10 i 30 minuts)"
     "$VBOXMANAGE_BIN" startvm "$name" --type headless || return 1
-    wait_ssh 127.0.0.1 "$ssh_port" 2400 || return 1
+    wait_ssh 127.0.0.1 "$ssh_port" 2400 || { "$VBOXMANAGE_BIN" controlvm "$name" screenshotpng "/tmp/${name}-error.png" 2>/dev/null; log_error "Captura de pantalla de la VM: /tmp/${name}-error.png"; return 1; }
 
     for i in $(seq 1 12); do
         ssh_template "$ssh_port" true && break

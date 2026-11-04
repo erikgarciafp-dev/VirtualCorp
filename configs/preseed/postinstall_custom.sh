@@ -65,3 +65,12 @@ if [ "${VCORP_VARIANT}" = "desktop" ]; then
     MY_IGNORE_EXITCODE=
 fi
 
+
+# --- Teclat en castella (VirtualBox fixa 'us' amb parametres del nucli) ---
+cat > "${MY_TARGET}/etc/default/keyboard" <<'KBD_EOF'
+XKBMODEL="pc105"
+XKBLAYOUT="es"
+XKBVARIANT=""
+XKBOPTIONS=""
+BACKSPACE="guess"
+KBD_EOF
