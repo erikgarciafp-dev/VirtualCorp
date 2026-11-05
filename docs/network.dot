@@ -1,0 +1,38 @@
+digraph VirtualCorp {
+    graph [label="VirtualCorp - delegacio 7 (10.7.0.0/16) - disseny de xarxa", labelloc=t, fontsize=20,
+           fontname="Helvetica-Bold", rankdir=TB, nodesep=0.35, ranksep=0.9, pad=0.4, splines=true];
+    node  [fontname="Helvetica", fontsize=11, style="filled", penwidth=1.2];
+    edge  [fontname="Helvetica", fontsize=10, dir=none, penwidth=1.4];
+
+    inet [label="Internet\n(NAT de VirtualBox)", shape=cloud, fillcolor="#e8f1fb", color="#5b8fc9"];
+
+    node [shape=box, style="rounded,filled", fillcolor="#fff3d6", color="#c98a1a", width=1.9];
+    r0 [label=<<B>mikrotik0</B><BR/>planta baixa<BR/>ether1 NAT · únic accés des del PC>];
+    r1 [label=<<B>mikrotik1</B><BR/>planta 1>];
+    r2 [label=<<B>mikrotik2</B><BR/>planta 2>];
+    r3 [label=<<B>mikrotik3</B><BR/>planta 3 i direcció>];
+
+    { rank=same; r0; r1; r2; r3; }
+
+    inet -> r0 [label="masquerade", color="#5b8fc9"];
+    r0 -> r1 [label=<<B>rt0_1</B><BR/>10.7.0.224/30<BR/>.225 — .226>, color="#c98a1a"];
+    r1 -> r2 [label=<<B>rt1_2</B><BR/>10.7.0.228/30<BR/>.229 — .230>, color="#c98a1a"];
+    r2 -> r3 [label=<<B>rt2_3</B><BR/>10.7.0.232/30<BR/>.233 — .234>, color="#c98a1a"];
+
+    node [shape=box, style="filled", fillcolor="#e4f4e4", color="#4a9a4a", width=2.3];
+    pl0   [label=<<B>pl0</B> · 10.7.0.0/25<BR/>gw .1<BR/>expo1-4 (.33-.36)<BR/>printer0 (.65)<BR/>conserge1, conserge2>];
+    priv  [label=<<B>privada</B> · 10.7.0.128/26<BR/>gw .129<BR/>pve01 (.133)<BR/>dbsrv (.134) · infosrv (.135)>, fillcolor="#efe4f7", color="#8a5fb0"];
+    dmz   [label=<<B>dmz</B> · 10.7.0.192/27<BR/>gw .193<BR/>websrv (.197)>, fillcolor="#fbe4e4", color="#c95b5b"];
+    pl1   [label=<<B>pl1</B> · 10.7.1.0/24<BR/>gw .1<BR/>printer1 (.65)<BR/>pc1>];
+    pl2   [label=<<B>pl2</B> · 10.7.2.0/24<BR/>gw .1<BR/>printer2 (.65)<BR/>pc2>];
+    pl3   [label=<<B>pl3</B> · 10.7.3.0/25<BR/>gw .1<BR/>printer3 (.65)<BR/>pc3>];
+    pl3d  [label=<<B>pl3_direccio</B> · 10.7.3.128/25<BR/>gw .129<BR/>dir1, dir2, dir3>, fillcolor="#fdf0d8", color="#c98a1a"];
+
+    r0 -> pl0   [color="#4a9a4a"];
+    r0 -> priv  [color="#8a5fb0"];
+    r0 -> dmz   [color="#c95b5b"];
+    r1 -> pl1   [color="#4a9a4a"];
+    r2 -> pl2   [color="#4a9a4a"];
+    r3 -> pl3   [color="#4a9a4a"];
+    r3 -> pl3d  [color="#c98a1a"];
+}
