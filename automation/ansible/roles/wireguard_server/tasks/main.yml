@@ -1,0 +1,63 @@
+---
+- name: Interficie WireGuard
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/interface wireguard find where name="{{ wg_interface }}"]]=0) do={/interface wireguard add name="{{ wg_interface }}" listen-port={{ wg_listen_port }} comment="VirtualCorp VPN"; :put ("cre"."ated")} else={:put exists}'
+  register: wg_if
+  changed_when: "'created' in (wg_if.stdout | join(' '))"
+
+- name: Adreca del tunel al servidor
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/ip address find where interface="{{ wg_interface }}" and address="{{ wg_server_address }}/{{ wg_prefix_len }}"]]=0) do={/ip address add address={{ wg_server_address }}/{{ wg_prefix_len }} interface="{{ wg_interface }}" comment="VirtualCorp VPN"; :put ("cre"."ated")} else={:put exists}'
+  register: wg_addr
+  changed_when: "'created' in (wg_addr.stdout | join(' '))"
+
+- name: Llegir la clau publica del servidor
+  community.routeros.command:
+    commands:
+      - ':put [/interface wireguard get [find where name="{{ wg_interface }}"] public-key]'
+  register: wg_pub
+  changed_when: false
+
+- name: Guardar la clau publica del servidor
+  ansible.builtin.set_fact:
+    wg_server_public_key: "{{ wg_pub.stdout | join(' ') | regex_search('[A-Za-z0-9+/]{43}=') }}"
+
+- name: Peer del client
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/interface wireguard peers find where interface="{{ wg_interface }}" and public-key="{{ client_pub }}"]]=0) do={/interface wireguard peers add interface="{{ wg_interface }}" public-key="{{ client_pub }}" allowed-address={{ wg_client_address }}/32 comment="{{ wg_client_name }}"; :put ("cre"."ated")} else={:put exists}'
+  vars:
+    client_pub: "{{ hostvars['localhost']['wg_client_public_key'] }}"
+  register: wg_peer
+  changed_when: "'created' in (wg_peer.stdout | join(' '))"
+
+- name: Xarxes autoritzades (llista d'adreces)
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/ip firewall address-list find where list="{{ wg_address_list }}" and address="{{ item }}"]]=0) do={/ip firewall address-list add list="{{ wg_address_list }}" address={{ item }} comment="VirtualCorp VPN"; :put ("cre"."ated")} else={:put exists}'
+  loop: "{{ wg_allowed_networks }}"
+  register: wg_al
+  changed_when: "'created' in (wg_al.stdout | join(' '))"
+
+- name: Tallafoc input - port UDP obert abans de qualsevol descart
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/ip firewall filter find where comment="vcorp-wg-input"]]=0) do={:if ([:len [/ip firewall filter find]]=0) do={/ip firewall filter add chain=input action=accept protocol=udp dst-port={{ wg_listen_port }} comment="vcorp-wg-input"} else={/ip firewall filter add chain=input action=accept protocol=udp dst-port={{ wg_listen_port }} place-before=[:pick [/ip firewall filter find] 0] comment="vcorp-wg-input"}; :put ("cre"."ated")} else={:put exists}'
+  register: wg_fw_in
+  changed_when: "'created' in (wg_fw_in.stdout | join(' '))"
+
+- name: Tallafoc forward - permetre nomes cap a les xarxes autoritzades
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/ip firewall filter find where comment="vcorp-wg-forward-allow"]]=0) do={/ip firewall filter add chain=forward action=accept in-interface="{{ wg_interface }}" dst-address-list="{{ wg_address_list }}" comment="vcorp-wg-forward-allow"; :put ("cre"."ated")} else={:put exists}'
+  register: wg_fw_allow
+  changed_when: "'created' in (wg_fw_allow.stdout | join(' '))"
+
+- name: Tallafoc forward - descartar la resta del transit del tunel
+  community.routeros.command:
+    commands:
+      - ':if ([:len [/ip firewall filter find where comment="vcorp-wg-forward-drop"]]=0) do={/ip firewall filter add chain=forward action=drop in-interface="{{ wg_interface }}" comment="vcorp-wg-forward-drop"; :put ("cre"."ated")} else={:put exists}'
+  register: wg_fw_drop
+  changed_when: "'created' in (wg_fw_drop.stdout | join(' '))"

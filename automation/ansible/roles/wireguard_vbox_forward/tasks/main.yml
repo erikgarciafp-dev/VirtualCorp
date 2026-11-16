@@ -1,0 +1,17 @@
+---
+- name: Consultar l'estat de la VM del router
+  ansible.builtin.command:
+    argv: ["{{ vboxmanage_bin }}", showvminfo, "{{ wg_vbox_vm }}", --machinereadable]
+  register: wg_vm_info
+  changed_when: false
+
+- name: Comprovar que la VM esta en execucio
+  ansible.builtin.assert:
+    that:
+      - "'VMState=\"running\"' in wg_vm_info.stdout"
+
+- name: Crear el reenviament UDP si no existeix
+  ansible.builtin.command:
+    argv: ["{{ vboxmanage_bin }}", controlvm, "{{ wg_vbox_vm }}", natpf1, "{{ wg_vbox_forward_rule }}"]
+  when: "wg_vbox_forward_rule not in wg_vm_info.stdout"
+  changed_when: true

@@ -1,0 +1,9 @@
+---
+- name: Escriure el fitxer de configuracio del client
+  ansible.builtin.template:
+    src: wg-vcorp-client.conf.j2
+    dest: "{{ wg_artifacts_dir }}/{{ wg_client_conf_name }}"
+    mode: "0600"
+  vars:
+    wg_server_public_key: "{{ hostvars['mikrotik0']['wg_server_public_key'] }}"
+  no_log: true

@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = {{ lookup('ansible.builtin.file', wg_client_private_key_path) | trim }}
+Address = {{ wg_client_address }}/{{ wg_prefix_len }}
+
+[Peer]
+PublicKey = {{ wg_server_public_key }}
+Endpoint = {{ wg_endpoint_host }}:{{ wg_endpoint_port }}
+AllowedIPs = {{ (wg_allowed_networks + [wg_tunnel_network]) | join(', ') }}
+PersistentKeepalive = 25

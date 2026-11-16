@@ -1,0 +1,19 @@
+---
+- name: Claus WireGuard del client
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - wireguard_client_keys
+
+- name: Servidor WireGuard a mikrotik0
+  hosts: mikrotik0
+  gather_facts: false
+  roles:
+    - wireguard_server
+
+- name: Reenviament UDP i fitxer del client
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - wireguard_vbox_forward
+    - wireguard_client_config

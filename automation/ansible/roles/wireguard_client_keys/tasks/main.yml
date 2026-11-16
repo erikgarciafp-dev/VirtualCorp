@@ -1,0 +1,22 @@
+---
+- name: Crear el directori local de claus
+  ansible.builtin.file:
+    path: "{{ wg_artifacts_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Generar la clau privada del client
+  ansible.builtin.shell:
+    cmd: "umask 077 && wg genkey > '{{ wg_client_private_key_path }}'"
+    creates: "{{ wg_client_private_key_path }}"
+  no_log: true
+
+- name: Derivar la clau publica del client
+  ansible.builtin.shell:
+    cmd: "umask 077 && wg pubkey < '{{ wg_client_private_key_path }}' > '{{ wg_client_public_key_path }}'"
+    creates: "{{ wg_client_public_key_path }}"
+  no_log: true
+
+- name: Llegir la clau publica del client
+  ansible.builtin.set_fact:
+    wg_client_public_key: "{{ lookup('ansible.builtin.file', wg_client_public_key_path) | trim }}"
