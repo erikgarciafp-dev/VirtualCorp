@@ -1,0 +1,43 @@
+{# Gestionat per Ansible (rol kea_dhcp). No editar a ma. #}
+{
+  "Dhcp4": {
+    "interfaces-config": {
+      "interfaces": [ "{{ kea_interface }}" ]
+    },
+    "lease-database": {
+      "type": "memfile",
+      "persist": true,
+      "lfc-interval": 3600
+    },
+    "valid-lifetime": {{ kea_valid_lifetime }},
+    "renew-timer": {{ kea_renew_timer }},
+    "rebind-timer": {{ kea_rebind_timer }},
+    "reservations-out-of-pool": true,
+    "option-data": [
+      { "name": "domain-name-servers", "data": "{{ kea_dns_servers | join(', ') }}" },
+      { "name": "domain-name", "data": "{{ kea_domain_name }}" }
+    ],
+    "loggers": [
+      {
+        "name": "kea-dhcp4",
+        "output_options": [ { "output": "stdout" } ],
+        "severity": "INFO"
+      }
+    ],
+    "subnet4": [
+{% for s in kea_subnets %}
+{% set res = [] %}
+{% for r in kea_plan if r[4] == 'reservation' and r[1] == s.name %}
+{% set _ = res.append({'hw-address': r[3], 'ip-address': r[2], 'hostname': r[0]}) %}
+{% endfor %}
+      {
+        "id": {{ loop.index }},
+        "subnet": "{{ s.subnet }}",
+        "pools": [ { "pool": "{{ s.pool_start }} - {{ s.pool_end }}" } ],
+        "option-data": [ { "name": "routers", "data": "{{ s.gateway }}" } ],
+        "reservations": {{ res | to_json }}
+      }{{ "," if not loop.last else "" }}
+{% endfor %}
+    ]
+  }
+}

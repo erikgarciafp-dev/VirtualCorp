@@ -208,3 +208,5 @@ __pycache__/
 venv/
 .venv/
 
+infrastructure/terraform/**/.terraform/
+*.local.tfvars

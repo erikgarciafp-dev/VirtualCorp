@@ -1,0 +1,12 @@
+---
+- name: Servidor DHCP Kea a kea01
+  hosts: dhcp_servers
+  gather_facts: false
+  roles:
+    - kea_dhcp
+
+- name: Relays DHCP als routers
+  hosts: routeros
+  gather_facts: false
+  roles:
+    - dhcp_relay

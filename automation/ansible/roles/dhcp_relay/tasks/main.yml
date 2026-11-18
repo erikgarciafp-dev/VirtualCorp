@@ -1,0 +1,18 @@
+---
+- name: Llegir els relays DHCP existents
+  community.routeros.command:
+    commands:
+      - /ip dhcp-relay print terse
+  register: dhcp_relay_actual
+  changed_when: false
+
+- name: Assegurar un relay per cada interfície amb clients
+  community.routeros.command:
+    commands:
+      - "{{ lookup('ansible.builtin.template', 'relay.rsc.j2') | trim }}"
+  loop: "{{ dhcp_relays_by_router[inventory_hostname] }}"
+  loop_control:
+    loop_var: relay
+    label: "{{ relay.name }}"
+  register: dhcp_relay_result
+  changed_when: "(dhcp_relay_result.stdout | join(' ')) is search('created|updated')"

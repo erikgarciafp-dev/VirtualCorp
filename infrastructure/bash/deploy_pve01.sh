@@ -105,7 +105,7 @@ create_vm() {
         --nested-hw-virt on \
         --graphicscontroller vmsvga --vram 16 --audio-driver none \
         --nic1 intnet --intnet1 "$PVE01_NETWORK" \
-        --macaddress1 "$PVE01_MAC" --cableconnected1 on \
+        --macaddress1 "$PVE01_MAC" --cableconnected1 on --nicpromisc1 allow-all \
         --boot1 disk --boot2 dvd --boot3 none --boot4 none || return 1
 
     vm_cfg="$("$VBOXMANAGE_BIN" showvminfo "$PVE01_NAME" --machinereadable | grep '^CfgFile=' | cut -d'"' -f2)"

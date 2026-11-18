@@ -1,0 +1,6 @@
+---
+kea_interface: eth0
+kea_valid_lifetime: 3600
+kea_renew_timer: 1800
+kea_rebind_timer: 3150
+kea_plan_file: "{{ playbook_dir }}/../../../configs/address-plan.tsv"

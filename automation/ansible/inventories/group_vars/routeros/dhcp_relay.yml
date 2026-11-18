@@ -1,0 +1,14 @@
+---
+dhcp_relay_server: 10.7.0.136
+dhcp_relays_by_router:
+  mikrotik0:
+    - {name: relay-pl0, interface: ether3, local_address: 10.7.0.1}
+    - {name: relay-privada, interface: ether4, local_address: 10.7.0.129}
+    - {name: relay-dmz, interface: ether5, local_address: 10.7.0.193}
+  mikrotik1:
+    - {name: relay-pl1, interface: ether4, local_address: 10.7.1.1}
+  mikrotik2:
+    - {name: relay-pl2, interface: ether4, local_address: 10.7.2.1}
+  mikrotik3:
+    - {name: relay-pl3, interface: ether3, local_address: 10.7.3.1}
+    - {name: relay-pl3-direccio, interface: ether4, local_address: 10.7.3.129}

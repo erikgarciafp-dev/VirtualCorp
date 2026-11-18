@@ -1,0 +1,5 @@
+---
+- name: Reiniciar Kea DHCPv4
+  ansible.builtin.service:
+    name: kea-dhcp4-server
+    state: restarted

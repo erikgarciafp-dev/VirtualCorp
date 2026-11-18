@@ -1,0 +1,15 @@
+name	network	ip	mac	type
+websrv	dmz	10.7.0.197	08:00:27:07:00:01	reservation
+dbsrv	privada	10.7.0.134	08:00:27:07:00:02	reservation
+infosrv	privada	10.7.0.135	08:00:27:07:00:03	reservation
+printer0	pl0	10.7.0.65	08:00:27:07:00:04	reservation
+printer1	pl1	10.7.1.65	08:00:27:07:00:05	reservation
+printer2	pl2	10.7.2.65	08:00:27:07:00:06	reservation
+printer3	pl3	10.7.3.65	08:00:27:07:00:07	reservation
+expo1	pl0	10.7.0.33	08:00:27:07:00:08	reservation
+expo2	pl0	10.7.0.34	08:00:27:07:00:09	reservation
+expo3	pl0	10.7.0.35	08:00:27:07:00:0a	reservation
+expo4	pl0	10.7.0.36	08:00:27:07:00:0b	reservation
+pve01	privada	10.7.0.133	08:00:27:07:00:14	static
+kea01	privada	10.7.0.136	-	static
+dns01	privada	10.7.0.137	-	static

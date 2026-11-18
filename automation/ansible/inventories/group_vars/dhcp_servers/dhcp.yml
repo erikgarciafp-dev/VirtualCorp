@@ -1,0 +1,13 @@
+---
+# Dades d'adreçament del servei DHCP (sense secrets).
+kea_domain_name: virtualcorp.internal
+kea_dns_servers:
+  - 10.7.0.137
+kea_subnets:
+  - { name: dmz, subnet: 10.7.0.192/27, gateway: 10.7.0.193, pool_start: 10.7.0.208, pool_end: 10.7.0.222 }
+  - { name: privada, subnet: 10.7.0.128/26, gateway: 10.7.0.129, pool_start: 10.7.0.160, pool_end: 10.7.0.190 }
+  - { name: pl0, subnet: 10.7.0.0/25, gateway: 10.7.0.1, pool_start: 10.7.0.100, pool_end: 10.7.0.126 }
+  - { name: pl1, subnet: 10.7.1.0/24, gateway: 10.7.1.1, pool_start: 10.7.1.100, pool_end: 10.7.1.200 }
+  - { name: pl2, subnet: 10.7.2.0/24, gateway: 10.7.2.1, pool_start: 10.7.2.100, pool_end: 10.7.2.200 }
+  - { name: pl3, subnet: 10.7.3.0/25, gateway: 10.7.3.1, pool_start: 10.7.3.100, pool_end: 10.7.3.126 }
+  - { name: pl3_direccio, subnet: 10.7.3.128/25, gateway: 10.7.3.129, pool_start: 10.7.3.150, pool_end: 10.7.3.200 }

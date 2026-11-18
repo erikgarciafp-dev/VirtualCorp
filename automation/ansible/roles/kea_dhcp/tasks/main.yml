@@ -1,0 +1,31 @@
+---
+- name: Llegir el pla d'adreçament
+  ansible.builtin.set_fact:
+    kea_plan: "{{ lookup('ansible.builtin.file', kea_plan_file).splitlines()[1:] | map('split', '\t') | list }}"
+
+- name: Actualitzar la memòria cau d'APT
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  changed_when: false
+
+- name: Instal·lar Kea DHCPv4
+  ansible.builtin.apt:
+    name: kea-dhcp4-server
+    state: present
+
+- name: Desplegar la configuració de Kea (validada abans d'aplicar-la)
+  ansible.builtin.template:
+    src: kea-dhcp4.conf.j2
+    dest: /etc/kea/kea-dhcp4.conf
+    owner: root
+    group: _kea
+    mode: "0640"
+    validate: kea-dhcp4 -t %s
+  notify: Reiniciar Kea DHCPv4
+
+- name: Habilitar i iniciar Kea DHCPv4
+  ansible.builtin.service:
+    name: kea-dhcp4-server
+    enabled: true
+    state: started
